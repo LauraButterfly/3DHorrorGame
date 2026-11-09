@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Threading.Tasks.Dataflow;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,12 +14,6 @@ public enum RoomZone
         DiningRoom
     }
 
-[System.Serializable]
-public class RoomWalkPoints
-{
-    public RoomZone room;
-    public Transform[] points;
-}
 public class MonsterMovement : MonoBehaviour
 {
     // Define new object types MonsterState and RoomZone
@@ -43,9 +36,6 @@ public class MonsterMovement : MonoBehaviour
     public float minIdleTime = 2f;
     public float maxIdleTime = 6f;
 
-    // How long the monster pauses before choosing its next movement.
-    public float pauseDuration = 2f;
-
     // Suspisious boundaries
     public float suspiciousDistance = 8f;
     public float suspiciousDuration = 5f;
@@ -53,6 +43,7 @@ public class MonsterMovement : MonoBehaviour
     // Player detection
     public float detectionDistance = 12f;
 
+    // room zone area
     public Transform bedroom1;
     public Transform bedroom2;
     public Transform bathroom1;
@@ -61,33 +52,32 @@ public class MonsterMovement : MonoBehaviour
     public Transform livingroom;
     public Transform diningroom;
 
-    private Transform target;
-
-
-    // Room zone vectors
-    Array rooms = [bedroom1, bedroom2, bathroom1, bathroom2, kitchen, livingroom, diningroom];
+    RoomZone[] rooms = {RoomZone.Bedroom1, RoomZone.Bedroom2, RoomZone.Bathroom1, RoomZone.Bathroom2, RoomZone.Kitchen, RoomZone.LivingRoom, RoomZone.DiningRoom};
 
     public MonsterState monsterState;
 
     private NavMeshAgent agent;
     private Coroutine pauseCoroutine;
 
+    private RoomZone roomState;
+
+    private bool hasDestination = false;
+
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        monsterState = MonsterState.Idle;
+        monsterState = MonsterState.Walk;
+        roomState = RoomZone.LivingRoom;
     }
    
 
     void Update()
     {
-        // Do not select another state while the monster is paused.
         if (pauseCoroutine != null)
         {
             return;
         }
-        monsterState = ChooseNextState();
 
         switch (monsterState)
         {
@@ -96,7 +86,18 @@ public class MonsterMovement : MonoBehaviour
                 break;
 
             case MonsterState.Walk:
-                HandleWalk();
+
+                if (!hasDestination)
+                {
+                    HandleWalk();
+                }
+                else if (!agent.pathPending &&
+                        agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    hasDestination = false;
+                    monsterState = ChooseNextState();
+                }
+
                 break;
 
             case MonsterState.Sprint:
@@ -115,7 +116,7 @@ public class MonsterMovement : MonoBehaviour
 
     private MonsterState ChooseNextState()
     {
-        float roll = Random.value;
+        float roll = Random.Range(0f, 1f);
 
         if (roll < 0.3f)
         {
@@ -127,18 +128,62 @@ public class MonsterMovement : MonoBehaviour
 
     void HandleIdle()
     {
-        agent.isStopped = true;
-        agent.velocity = Vector3.zero;
-        pauseCoroutine = StartCoroutine(PauseMovement(pauseDuration));
+        pauseCoroutine = StartCoroutine(PauseMovement());
     }
 
     void HandleWalk()
     {
         agent.isStopped = false;
         agent.speed = walkSpeed;
-        target = rooms[Random.Range(0, rooms.Length)];
-        agent.SetDestination(target.position);
+        int roll = Random.Range(0, rooms.Length);
+        roomState = rooms[roll];
+        hasDestination = agent.SetDestination(GetRandomPositionForRoom(roomState));
     }
+
+    Vector3 GetRandomPositionForRoom(RoomZone room)
+    {
+        switch (room)
+        {
+            case RoomZone.Bathroom1:
+                return choosePos(bathroom1);
+
+            case RoomZone.Bathroom2:
+                return choosePos(bathroom2);
+
+            case RoomZone.Bedroom1:
+                return choosePos(bedroom1);
+
+            case RoomZone.Bedroom2:
+                return choosePos(bedroom2);
+
+            case RoomZone.DiningRoom:
+                return choosePos(diningroom);
+
+            case RoomZone.LivingRoom:
+                return choosePos(livingroom);
+
+            case RoomZone.Kitchen:
+                return choosePos(kitchen);
+        }
+
+        return transform.position;
+    }
+
+    Vector3 choosePos(Transform zone)
+    {
+        Vector3 center = zone.position;
+        Vector3 size = zone.localScale;
+
+        float randomX = Random.Range(-size.x / 2f, size.x / 2f);
+        float randomZ = Random.Range(-size.z / 2f, size.z / 2f);
+
+        return new Vector3(
+            center.x + randomX,
+            center.y,
+            center.z + randomZ
+        );
+    }
+
 
     void HandleSprint()
     {
@@ -158,14 +203,17 @@ public class MonsterMovement : MonoBehaviour
         agent.speed = chaseSpeed;
     }
 
-    public IEnumerator PauseMovement(float duration = 2f)
+    public IEnumerator PauseMovement()
     {
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
 
+        float duration = Random.Range(minIdleTime, maxIdleTime);
+
         yield return new WaitForSeconds(duration);
 
         pauseCoroutine = null;
+        monsterState = ChooseNextState();
 
     }
 }
