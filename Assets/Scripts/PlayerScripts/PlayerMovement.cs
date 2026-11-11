@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isSprinting;
     private bool wasPressed;
     private float lastForwardPressTime = -10f;
+
+    private bool isHiding;
     
     void Awake() {
         controller = GetComponent<CharacterController>();
@@ -34,7 +36,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Update(){
         //future pause controller here 
-        // if (isPaused || isHiding) { Vector3 moveDirection = 0; return;}
+        if (isHiding){ 
+            return;
+        }
 
         //camera slows down without normalizing these values:
         Vector3 forward = cameraTransform.forward;
@@ -101,9 +105,16 @@ public class PlayerMovement : MonoBehaviour
        }
     }
 
-
     public bool getSprinting(){
         return isSprinting;
+    }
+
+    public bool getHiding(){
+        return isHiding;
+    }
+
+    public void setHiding(bool status){
+        isHiding = status;
     }
 }
 
