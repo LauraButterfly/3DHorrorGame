@@ -7915,34 +7915,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1980781952}
     - target: {fileID: 6407839658174557214, guid: af4c65c7683b14701b5f988c13f33fef, type: 3}
-      propertyPath: kitchen
-      value: 
-      objectReference: {fileID: 560504511}
-    - target: {fileID: 6407839658174557214, guid: af4c65c7683b14701b5f988c13f33fef, type: 3}
-      propertyPath: bedroom1
-      value: 
-      objectReference: {fileID: 591028589}
-    - target: {fileID: 6407839658174557214, guid: af4c65c7683b14701b5f988c13f33fef, type: 3}
-      propertyPath: bedroom2
-      value: 
-      objectReference: {fileID: 1178769116}
-    - target: {fileID: 6407839658174557214, guid: af4c65c7683b14701b5f988c13f33fef, type: 3}
-      propertyPath: bathroom1
-      value: 
-      objectReference: {fileID: 901184897}
-    - target: {fileID: 6407839658174557214, guid: af4c65c7683b14701b5f988c13f33fef, type: 3}
-      propertyPath: bathroom2
-      value: 
-      objectReference: {fileID: 552635540}
-    - target: {fileID: 6407839658174557214, guid: af4c65c7683b14701b5f988c13f33fef, type: 3}
-      propertyPath: diningroom
-      value: 
-      objectReference: {fileID: 1441162839}
-    - target: {fileID: 6407839658174557214, guid: af4c65c7683b14701b5f988c13f33fef, type: 3}
-      propertyPath: livingroom
-      value: 
-      objectReference: {fileID: 35843644}
-    - target: {fileID: 6407839658174557214, guid: af4c65c7683b14701b5f988c13f33fef, type: 3}
       propertyPath: roomSize.x
       value: 1
       objectReference: {fileID: 0}
