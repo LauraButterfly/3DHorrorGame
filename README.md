@@ -16,3 +16,8 @@ Laura: Creating and rigging the Sanrio characters.
 Melissa: Developing character movements/controls such as moving, idle, hiding, sprinting, and interacting with objects.
 Matt: Designing the haunted house which includes building the foundation, adding furniture, and adding character to our enviorment.
 Bella: Implementing monster movement, so it can move around the haunted house randomly, not move through walls or furniture, and get progressively more scary/challenging as the character collects keys. Additionally, Bella needs to add animations to the monster, and add a catch sequence.
+
+
+### Gameplay Demo Video
+https://youtu.be/BWhnBC6vJIA
+
