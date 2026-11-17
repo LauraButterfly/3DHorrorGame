@@ -12,7 +12,7 @@ Cute but Scary is a horror game where you solve puzzles to save your friend who 
 
 ### General goals for each person (such as art/animation/level design)
 
-Laura: Creating and rigging the Sanrio characters.
+Laura: Creating, rigging and animating the Sanrio characters.
 Melissa: Developing character movements/controls such as moving, idle, hiding, sprinting, and interacting with objects.
 Matt: Designing the haunted house which includes building the foundation, adding furniture, and adding character to our enviorment.
 Bella: Implementing monster movement, so it can move around the haunted house randomly, not move through walls or furniture, and get progressively more scary/challenging as the character collects keys. Additionally, Bella needs to add animations to the monster, and add a catch sequence.
@@ -20,4 +20,8 @@ Bella: Implementing monster movement, so it can move around the haunted house ra
 
 ### Gameplay Demo Video
 https://youtu.be/BWhnBC6vJIA
+
+### Example Sanrio character
+<img width="1324" height="1094" alt="grafik" src="https://github.com/user-attachments/assets/181d7ceb-402b-44e2-974e-5d57714d4839" />
+
 
