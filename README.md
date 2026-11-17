@@ -1,4 +1,4 @@
-# Cute but Scary
+# Sweet Little Nightmare
 
 
 ### Isabella King, Laura Rissler, Melissa Tan, Matt Gallenberger
