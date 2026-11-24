@@ -44,13 +44,13 @@ public class MonsterMovement : MonoBehaviour
     public float detectionDistance = 12f;
 
     // room zone area
-    public Transform bedroom1;
-    public Transform bedroom2;
-    public Transform bathroom1;
-    public Transform bathroom2;
-    public Transform kitchen;
-    public Transform livingroom;
-    public Transform diningroom;
+    public Transform[] bedroom1;
+    public Transform[] bedroom2;
+    public Transform[] bathroom1;
+    public Transform[] bathroom2;
+    public Transform[] kitchen;
+    public Transform[] livingroom;
+    public Transform[] diningroom;
 
     RoomZone[] rooms = {RoomZone.Bedroom1, RoomZone.Bedroom2, RoomZone.Bathroom1, RoomZone.Bathroom2, RoomZone.Kitchen, RoomZone.LivingRoom, RoomZone.DiningRoom};
 
@@ -169,10 +169,12 @@ public class MonsterMovement : MonoBehaviour
         return transform.position;
     }
 
-    Vector3 choosePos(Transform zone)
+    Vector3 choosePos(Transform[] zones)
     {
-        Vector3 center = zone.position;
-        Vector3 size = zone.localScale;
+        int index = Random.Range(0, zones.Length);
+
+        Vector3 center = zones[index].position;
+        Vector3 size = zones[index].localScale;
 
         float randomX = Random.Range(-size.x / 2f, size.x / 2f);
         float randomZ = Random.Range(-size.z / 2f, size.z / 2f);
@@ -216,4 +218,10 @@ public class MonsterMovement : MonoBehaviour
         monsterState = ChooseNextState();
 
     }
+
+    public Vector3 getMosterLoc()
+    {
+        return transform.position;
+    }
+
 }
