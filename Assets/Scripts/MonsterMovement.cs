@@ -61,6 +61,8 @@ public class MonsterMovement : MonoBehaviour
 
     private RoomZone roomState;
 
+    private Animator animator;
+
     private bool hasDestination = false;
 
 
@@ -69,11 +71,14 @@ public class MonsterMovement : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         monsterState = MonsterState.Walk;
         roomState = RoomZone.LivingRoom;
+        animator = GetComponent<Animator>();
     }
    
 
     void Update()
     {
+        animator.SetFloat("Speed", agent.velocity.magnitude);
+        
         if (pauseCoroutine != null)
         {
             return;
@@ -112,6 +117,7 @@ public class MonsterMovement : MonoBehaviour
                 HandleChase();
                 break;
         }
+
     }
 
     private MonsterState ChooseNextState()
